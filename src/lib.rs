@@ -2,7 +2,7 @@ use chrono::{self, Datelike, NaiveDate};
 use std::convert::From;
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct JulianDay(u32);
+pub struct JulianDay(i32);
 
 impl From<NaiveDate> for JulianDay {
     fn from(date: NaiveDate) -> Self {
@@ -16,12 +16,12 @@ impl From<NaiveDate> for JulianDay {
 
         let jd = day + (153 * m + 2) / 5 + y * 365 + y / 4 - y / 100 + y / 400 - 32045;
 
-        JulianDay(jd)
+        JulianDay(jd as i32)
     }
 }
 
 impl JulianDay {
-    pub fn inner(self) -> u32 {
+    pub fn inner(self) -> i32 {
         let JulianDay(day) = self;
         return day;
     }
@@ -41,7 +41,7 @@ impl JulianDay {
         let month = m + 3 - 12 * (m / 10);
         let year = b * 100 + d - 4800 + m / 10;
 
-        NaiveDate::from_ymd(year as i32, month, day)
+        NaiveDate::from_ymd(year as i32, month as u32, day as u32)
     }
 }
 
