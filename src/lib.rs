@@ -39,6 +39,11 @@ impl From<NaiveDate> for JulianDay {
 }
 
 impl JulianDay {
+    /// Construct a new JulianDay
+    pub fn new(day: i32) -> Self {
+        JulianDay(day)
+    }
+
     /// Get the value of JulianDay as i32
     pub fn inner(self) -> i32 {
         let JulianDay(day) = self;
