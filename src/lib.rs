@@ -1,3 +1,20 @@
+//! Julian day is the continuous count of days since the beginning of the Julian Period.
+//! This crate implements a method to convert a JulianDay to and from the chrono's NaiveDate.
+//!
+//! # Example
+//!
+//! ```
+//! use julianday::JulianDay;
+//! use chrono::NaiveDate;
+//!
+//! fn main() {
+//!     let naivedate = NaiveDate::from_ymd(2020, 2, 18);
+//!     let julianday = JulianDay::from(naivedate);
+//!
+//!     let date = julianday.to_date();
+//! }
+//! ```
+
 use chrono::{self, Datelike, NaiveDate};
 use std::convert::From;
 
@@ -5,6 +22,7 @@ use std::convert::From;
 pub struct JulianDay(i32);
 
 impl From<NaiveDate> for JulianDay {
+    /// Get a JulianDay from a NaiveDate
     fn from(date: NaiveDate) -> Self {
         let day = date.day();
         let month = date.month();
@@ -21,11 +39,13 @@ impl From<NaiveDate> for JulianDay {
 }
 
 impl JulianDay {
+    /// Get the value of JulianDay as i32
     pub fn inner(self) -> i32 {
         let JulianDay(day) = self;
         return day;
     }
 
+    /// Convert a JulianDay to a NaiveDate
     pub fn to_date(self) -> NaiveDate {
         let jd = self.inner();
 

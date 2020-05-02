@@ -2,6 +2,11 @@
 name = "julianday"
 version = "0.1.0"
 authors = ["Max Audron"]
+license = "MIT"
+description = "Julian day is the continuous count of days since the beginning of the Julian Period. This crate implements a method to convert a JulianDay to and from the chrono's NaiveDate."
+repository = "https://gitlab.com/cocainefarm/julianday"
+readme = "README.md"
+categories = ["date-and-time"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
