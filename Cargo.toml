@@ -1,6 +1,6 @@
 [package]
 name = "julianday"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Max Audron"]
 license = "MIT"
 description = "Julian day is the continuous count of days since the beginning of the Julian Period. This crate implements a method to convert a JulianDay to and from the chrono's NaiveDate."
