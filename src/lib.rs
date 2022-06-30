@@ -70,9 +70,40 @@ impl JulianDay {
     }
 }
 
+#[derive(Clone, Debug, PartialEq)]
+pub struct ModifiedJulianDay (i32);
+
+impl From<NaiveDate> for ModifiedJulianDay {
+    /// Get a ModifiedJulianDay from a NaiveDate
+    fn from (date: NaiveDate) -> Self {
+        let jd : JulianDay = date.into();
+        let mjd = (jd.inner() as f32 - 2400000.5).round();
+        ModifiedJulianDay(mjd as i32)
+    }
+}
+
+impl ModifiedJulianDay {
+    pub fn new (day: i32) -> Self {
+        let jd = JulianDay(day);
+        let mjd = ((jd.inner() as f32) - 2400000.5).round() as i32;
+        ModifiedJulianDay(mjd)
+    }
+
+    pub fn inner (self) -> i32 {
+        let ModifiedJulianDay(day) = self;
+        return day;
+    }
+
+    pub fn to_date (self) -> NaiveDate {
+        let jd = (self.inner() as f32 + 2400000.5).round();
+        let jd = JulianDay(jd as i32);
+        jd.to_date()
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use crate::JulianDay;
+    use crate::{JulianDay, ModifiedJulianDay};
     use chrono::NaiveDate;
 
     #[test]
@@ -91,5 +122,20 @@ mod tests {
         let date = JulianDay::from(naivedate);
 
         assert_eq!(date, jd)
+    }
+
+    #[test]
+    fn mjd_to_naivedate() {
+        let mjd = ModifiedJulianDay(57000);
+        let naivedate = NaiveDate::from_ymd(2014, 12, 9);
+        let date = mjd.to_date();
+        assert_eq!(date, naivedate);
+    }
+
+    #[test]
+    fn naivedate_to_mjd() {
+        let mjd = ModifiedJulianDay(57000);
+        let naivedate = NaiveDate::from_ymd(2014, 12, 9);
+        assert_eq!(mjd.to_date(), naivedate);
     }
 }
