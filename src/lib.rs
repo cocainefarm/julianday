@@ -84,9 +84,7 @@ impl From<NaiveDate> for ModifiedJulianDay {
 
 impl ModifiedJulianDay {
     pub fn new (day: i32) -> Self {
-        let jd = JulianDay(day);
-        let mjd = ((jd.inner() as f32) - 2400000.5).round() as i32;
-        ModifiedJulianDay(mjd)
+        ModifiedJulianDay(day)
     }
 
     pub fn inner (self) -> i32 {
