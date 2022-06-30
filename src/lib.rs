@@ -106,7 +106,7 @@ mod tests {
 
     #[test]
     fn julian_to_naivedate() {
-        let jd = JulianDay(2458898);
+        let jd = JulianDay::new(2458898);
         let naivedate = NaiveDate::from_ymd(2020, 2, 18);
         let date = jd.to_date();
 
@@ -115,7 +115,7 @@ mod tests {
 
     #[test]
     fn naivedate_to_julian() {
-        let jd = JulianDay(2458898);
+        let jd = JulianDay::new(2458898);
         let naivedate = NaiveDate::from_ymd(2020, 2, 18);
         let date = JulianDay::from(naivedate);
 
@@ -124,7 +124,7 @@ mod tests {
 
     #[test]
     fn mjd_to_naivedate() {
-        let mjd = ModifiedJulianDay(57000);
+        let mjd = ModifiedJulianDay::new(57000);
         let naivedate = NaiveDate::from_ymd(2014, 12, 9);
         let date = mjd.to_date();
         assert_eq!(date, naivedate);
@@ -132,7 +132,7 @@ mod tests {
 
     #[test]
     fn naivedate_to_mjd() {
-        let mjd = ModifiedJulianDay(57000);
+        let mjd = ModifiedJulianDay::new(57000);
         let naivedate = NaiveDate::from_ymd(2014, 12, 9);
         assert_eq!(mjd.to_date(), naivedate);
     }
