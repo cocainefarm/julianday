@@ -25,8 +25,9 @@
 //!  fn main() {
 //!     let date = NaiveDate::from_ymd(1858, 11, 17);
 //!     let mjd = ModifiedJulianDay::from(date);
-//!     let jd = JulianDay::new(2400001);
 //!     assert_eq!(mjd, ModifiedJulianDay::new(0));
+//!     let jd : JulianDay = mjd.into();
+//!     assert_eq!(jd, JulianDay::new(2400001));
 //!  }
 //!  ```
 
@@ -50,6 +51,18 @@ impl From<NaiveDate> for JulianDay {
         let jd = day + (153 * m + 2) / 5 + y * 365 + y / 4 - y / 100 + y / 400 - 32045;
 
         JulianDay(jd as i32)
+    }
+}
+
+impl Into<i32> for JulianDay {
+    fn into (self) -> i32 {
+        self.inner()
+    }
+}
+
+impl Into<ModifiedJulianDay> for JulianDay {
+    fn into (self) -> ModifiedJulianDay {
+        ModifiedJulianDay(self.inner() - 2400001)
     }
 }
 
@@ -93,6 +106,18 @@ impl From<NaiveDate> for ModifiedJulianDay {
     fn from (date: NaiveDate) -> Self {
         let jd : JulianDay = date.into();
         ModifiedJulianDay(jd.inner() - 2400001)
+    }
+}
+
+impl Into<i32> for ModifiedJulianDay {
+    fn into (self) -> i32 {
+        self.inner()
+    }
+}
+
+impl Into<JulianDay> for ModifiedJulianDay {
+    fn into (self) -> JulianDay {
+        JulianDay(self.inner() + 2400001)
     }
 }
 
@@ -160,5 +185,21 @@ mod tests {
         let date = NaiveDate::from_ymd(1858, 11, 16);
         let mjd = ModifiedJulianDay::from(date);
         assert_eq!(mjd, ModifiedJulianDay(-1));
+    }
+
+    #[test]
+    fn test_casts() {
+        let jd = JulianDay(2458898);
+        let days :i32 = jd.into();
+        assert_eq!(days, 2458898);
+        let mjd = ModifiedJulianDay(58897);
+        let days :i32 = mjd.into(); 
+        assert_eq!(days, 58897);
+        let mjd = ModifiedJulianDay(1);
+        let jd : JulianDay = mjd.into();
+        assert_eq!(jd, JulianDay::new(2400002));
+        let jd = JulianDay(2400010);
+        let mjd : ModifiedJulianDay = jd.into();
+        assert_eq!(mjd, ModifiedJulianDay::new(9));
     }
 }
