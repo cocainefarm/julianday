@@ -14,6 +14,21 @@
 //!     let date = julianday.to_date();
 //! }
 //! ```
+//!  
+//!  Modified Julian Days are translated Julian Days, starting on November 17 1858 at midnight
+//!
+//!  # Example
+//!  ```
+//!  use chrono::NaiveDate;
+//!  use julianday::{JulianDay, ModifiedJulianDay};
+//!  
+//!  fn main() {
+//!     let date = NaiveDate::from_ymd(1858, 11, 17);
+//!     let mjd = ModifiedJulianDay::from(date);
+//!     let jd = JulianDay::new(2400001);
+//!     assert_eq!(mjd, ModifiedJulianDay::new(0));
+//!  }
+//!  ```
 
 use chrono::{self, Datelike, NaiveDate};
 use std::convert::From;
@@ -77,8 +92,7 @@ impl From<NaiveDate> for ModifiedJulianDay {
     /// Get a ModifiedJulianDay from a NaiveDate
     fn from (date: NaiveDate) -> Self {
         let jd : JulianDay = date.into();
-        let mjd = (jd.inner() as f32 - 2400000.5).round();
-        ModifiedJulianDay(mjd as i32)
+        ModifiedJulianDay(jd.inner() - 2400001)
     }
 }
 
@@ -93,8 +107,7 @@ impl ModifiedJulianDay {
     }
 
     pub fn to_date (self) -> NaiveDate {
-        let jd = (self.inner() as f32 + 2400000.5).round();
-        let jd = JulianDay(jd as i32);
+        let jd = JulianDay(self.inner() + 2400001); 
         jd.to_date()
     }
 }
@@ -124,16 +137,28 @@ mod tests {
 
     #[test]
     fn mjd_to_naivedate() {
-        let mjd = ModifiedJulianDay::new(57000);
-        let naivedate = NaiveDate::from_ymd(2014, 12, 9);
+        let mjd = ModifiedJulianDay::new(58897);
+        let naivedate = NaiveDate::from_ymd(2020, 2, 18);
         let date = mjd.to_date();
         assert_eq!(date, naivedate);
+        let mjd = ModifiedJulianDay::new(57005);
+        let naivedate = NaiveDate::from_ymd(2014, 12, 14);
+        assert_eq!(mjd.to_date(), naivedate);
     }
 
     #[test]
     fn naivedate_to_mjd() {
-        let mjd = ModifiedJulianDay::new(57000);
-        let naivedate = NaiveDate::from_ymd(2014, 12, 9);
-        assert_eq!(mjd.to_date(), naivedate);
+        let date = NaiveDate::from_ymd(2014, 12, 14);
+        let mjd = ModifiedJulianDay::from(date);
+        assert_eq!(mjd, ModifiedJulianDay(57005));
+        let date = NaiveDate::from_ymd(1858, 11, 17);
+        let mjd = ModifiedJulianDay::from(date);
+        assert_eq!(mjd, ModifiedJulianDay(0));
+        let date = NaiveDate::from_ymd(1858, 11, 18);
+        let mjd = ModifiedJulianDay::from(date);
+        assert_eq!(mjd, ModifiedJulianDay(1));
+        let date = NaiveDate::from_ymd(1858, 11, 16);
+        let mjd = ModifiedJulianDay::from(date);
+        assert_eq!(mjd, ModifiedJulianDay(-1));
     }
 }
