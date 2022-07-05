@@ -1,6 +1,7 @@
 [![mirror](https://img.shields.io/badge/mirror-gitlab-orange)](https://gitlab.com/cocainefarm/julianday)
 [![mirror](https://img.shields.io/badge/mirror-github-blue)](https://github.com/cocainefarm/julianday)
 [![crates.io](https://img.shields.io/crates/v/julianday.svg)](https://crates.io/crates/julianday)
+[![Rust](https://github.com/cocainefarm/julianday/actions/workflows/rust.yml/badge.svg)](https://github.com/cocainefarm/julianday/actions/workflows/rust.yml)
 [![docs.rs](https://docs.rs/julianday/badge.svg)](https://docs.rs/julianday)
 
 Julian day is the continuous count of days since the beginning of the Julian Period.
